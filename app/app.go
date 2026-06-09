@@ -28,13 +28,13 @@ func InitApp() *App {
 
 	_ = router.PathPrefix("/api").Subrouter()
 
-	/* 
+	/*
 	   Les futurs contrôleurs se brancheront sur apiRouter .
 	*/
 
 	return &App{
 		Db:     db,
-		Router: router, 
+		Router: router,
 	}
 }
 
