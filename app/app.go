@@ -26,15 +26,15 @@ func InitApp() *App {
 		fmt.Fprintf(w, "<h1>Bienvenue sur I Need a Mate </h1><p>Prêt à trouver ton futur mate ?</p>")
 	}).Methods("GET")
 
-	apiRouter := router.PathPrefix("/api").Subrouter()
+	_ = router.PathPrefix("/api").Subrouter()
 
-	/* 
+	/*
 	   Les futurs contrôleurs se brancheront sur apiRouter .
 	*/
 
 	return &App{
 		Db:     db,
-		Router: router, 
+		Router: router,
 	}
 }
 
