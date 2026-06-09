@@ -1,20 +1,20 @@
 package main
 
 import (
-	"fmt"
+	"inam-forum/app"
+	"log"
 	"net/http"
 )
 
 func main() {
+	//Initialisation
+	application := app.InitApp()
+	defer application.Close()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "<h1>Bienvenue sur I Need a Mate </h1><p>Prêt à trouver ton futur mate ?</p>")
-	})
-
-	fmt.Println("Serveur lancé sur http://localhost:8080")
-
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		panic(err)
+	//Lancement du serveu
+	log.Printf("Serveur I Need a Mate lancé sur : http://localhost:8080")
+	serveErr := http.ListenAndServe(":8080", application.Router)
+	if serveErr != nil {
+		log.Fatalf("Erreur lors du lancement du serveur - %s", serveErr.Error())
 	}
 }
