@@ -2,4 +2,7 @@ module inam-forum
 
 go 1.25.0
 
-require github.com/gorilla/mux v1.8.1 // indirect
+require (
+	github.com/golang-jwt/jwt/v5 v5.3.1
+	github.com/mattn/go-sqlite3 v1.14.45
+)
