@@ -5,6 +5,7 @@ import (
 	"inam-forum/models"
 	"inam-forum/services"
 	"net/http"
+	"os"
 )
 
 type AuthController struct {
@@ -44,4 +45,29 @@ func (c *AuthController) RegisterHandler(w http.ResponseWriter, r *http.Request)
 
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(newUser)
+}
+
+// LoginHandler y gère la requête HTTP POST /api/login
+func (c *AuthController) LoginHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	var req models.LoginRequest
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{"error": "Données JSON invalides"})
+		return
+	}
+
+	jwtSecret := os.Getenv("JWT_SECRET")
+
+	authResponse, err := c.authService.Login(req, jwtSecret)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(authResponse)
 }
