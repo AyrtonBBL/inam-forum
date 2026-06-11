@@ -8,21 +8,22 @@ import (
 	"inam-forum/repositories"
 	"time"
 
-	"github.com/google/uuid" // kyk's se truc la y permet de générer des ID uniques au format String
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 )
 
 type AuthService struct {
 	userRepo *repositories.UserRepository
 }
 
-// InitAuthService il initialise le service d'authentification
+// InitAuthService y initialise le service d'authentification
 func InitAuthService(userRepo *repositories.UserRepository) *AuthService {
 	return &AuthService{userRepo: userRepo}
 }
 
-// Register ca gère la logique de création d'un compte
+// Register il gère la logique de création d'un compte
 func (s *AuthService) Register(req models.RegisterRequest) (*models.User, error) {
-	//  On verifie si l'email est déjà utilisé
+
 	existingUser, err := s.userRepo.GetByEmail(req.Email)
 	if err != nil {
 		return nil, err
@@ -31,27 +32,67 @@ func (s *AuthService) Register(req models.RegisterRequest) (*models.User, error)
 		return nil, errors.New("cet email est déjà utilisé par un autre gamer")
 	}
 
-	// la on doit hasher le mot de passe en SHA-512 pour la sécurité
+	//  il faut hasher le mot de passe en SHA-512 pour la sécurité
 	hasher := sha512.New()
 	hasher.Write([]byte(req.MotDePasse))
 	motPasseHashe := hex.EncodeToString(hasher.Sum(nil))
 
-	// on prép le modèle complet de l'utilisateur
 	newUser := &models.User{
-		ID:             uuid.New().String(), // Génère un ID unique
+		ID:             uuid.New().String(),
 		NomUtilisateur: req.NomUtilisateur,
 		Email:          req.Email,
 		MotPasseHashe:  motPasseHashe,
-		Role:           "user", // Ca c son rôle par défaut
+		Role:           "user",
 		EstBanni:       false,
 		CreatedAt:      time.Now(),
 	}
 
-	// Ici on enregistre en base de données via le Repository
 	err = s.userRepo.Create(newUser)
 	if err != nil {
 		return nil, err
 	}
 
 	return newUser, nil
+}
+
+func (s *AuthService) Login(req models.LoginRequest, jwtSecret string) (*models.AuthResponse, error) {
+
+	user, err := s.userRepo.GetByEmail(req.Identifiant)
+	if err != nil {
+		return nil, err
+	}
+	if user == nil {
+		return nil, errors.New("identifiants incorrects")
+	}
+	if user.EstBanni {
+		return nil, errors.New("ce compte a été suspendu par la modération")
+	}
+
+	hasher := sha512.New()
+	hasher.Write([]byte(req.MotDePasse))
+	motPasseHashe := hex.EncodeToString(hasher.Sum(nil))
+
+	if user.MotPasseHashe != motPasseHashe {
+		return nil, errors.New("identifiants incorrects")
+	}
+
+	expirationTime := time.Now().Add(24 * time.Hour)
+	claims := &models.Claims{
+		UserID: user.ID,
+		Role:   user.Role,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(expirationTime),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString([]byte(jwtSecret))
+	if err != nil {
+		return nil, err
+	}
+
+	return &models.AuthResponse{
+		Token: tokenString,
+		User:  *user,
+	}, nil
 }
