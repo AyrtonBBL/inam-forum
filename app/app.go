@@ -7,6 +7,10 @@ import (
 	"net/http"
 
 	"inam-forum/config"
+	"inam-forum/controllers"
+	"inam-forum/repositories"
+	"inam-forum/routers"
+	"inam-forum/services"
 
 	"github.com/gorilla/mux"
 )
@@ -22,15 +26,18 @@ func InitApp() *App {
 
 	router := mux.NewRouter()
 
+	// Page d'accueil de bienvenue 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "<h1>Bienvenue sur I Need a Mate </h1><p>Prêt à trouver ton futur mate ?</p>")
 	}).Methods("GET")
 
-	_ = router.PathPrefix("/api").Subrouter()
+	userRepo := repositories.InitUserRepository(db)
+	authService := services.InitAuthService(userRepo)
+	authController := controllers.InitAuthController(authService)
 
-	/*
-	   Les futurs contrôleurs se brancheront sur apiRouter .
-	*/
+	apiRouter := router.PathPrefix("/api").Subrouter()
+
+	routers.RegisterAuthRoutes(apiRouter, authController)
 
 	return &App{
 		Db:     db,
