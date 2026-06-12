@@ -5,6 +5,8 @@ import (
 	"inam-forum/models"
 	"inam-forum/services"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type MessageController struct {
@@ -48,4 +50,27 @@ func (c *MessageController) CreateHandler(w http.ResponseWriter, r *http.Request
 
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(newMsg)
+}
+
+func (c *MessageController) GetByThreadHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	vars := mux.Vars(r)
+	threadID := vars["id"]
+
+	if threadID == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{"error": "L'ID de l'annonce est requis"})
+		return
+	}
+
+	messages, err := c.service.GetMessagesByThread(threadID)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{"error": "Impossible de charger les messages"})
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(messages)
 }

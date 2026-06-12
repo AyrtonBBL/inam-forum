@@ -21,7 +21,7 @@ func (s *MessageService) CreateMessage(req models.MessageRequest, userID string)
 		ID:        uuid.New().String(),
 		Contenu:   req.Contenu,
 		DateEnvoi: time.Now(),
-		ThreadID:  req.ThreadID, 
+		ThreadID:  req.ThreadID,
 		UserID:    userID,
 		Score:     0,
 	}
@@ -32,4 +32,8 @@ func (s *MessageService) CreateMessage(req models.MessageRequest, userID string)
 	}
 
 	return newMessage, nil
+}
+
+func (s *MessageService) GetMessagesByThread(threadID string) ([]models.Message, error) {
+	return s.repo.GetByThreadID(threadID)
 }

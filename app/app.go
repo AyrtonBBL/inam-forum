@@ -63,6 +63,6 @@ func InitApp() *App {
 func (a *App) Close() {
 	if a.Db != nil {
 		a.Db.Close()
-		log.Println("Connexion à la base de données fermée proprement.")
+		log.Println("Connexion à la base de données fermée.")
 	}
 }
