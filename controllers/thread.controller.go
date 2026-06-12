@@ -49,3 +49,18 @@ func (c *ThreadController) CreateHandler(w http.ResponseWriter, r *http.Request)
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(newThread)
 }
+
+// GetAllHandler gère la requête HTTP GET /api/threads
+func (c *ThreadController) GetAllHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	threads, err := c.service.GetAllThreads()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{"error": "Impossible de récupérer les annonces"})
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(threads)
+}
