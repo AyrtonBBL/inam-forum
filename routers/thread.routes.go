@@ -11,4 +11,7 @@ import (
 func RegisterThreadRoutes(router *mux.Router, controller *controllers.ThreadController) {
 	// 1 utilisateur avec un JWT valide peut poster
 	router.Handle("/threads", middleware.AuthMiddleware(http.HandlerFunc(controller.CreateHandler))).Methods("POST")
+	// Route publique pour voir toutes les annonces 
+	router.HandleFunc("/threads", controller.GetAllHandler).Methods("GET")
 }
+

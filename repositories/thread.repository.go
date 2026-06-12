@@ -37,4 +37,25 @@ func (r *ThreadRepository) Create(thread *models.Thread, gameID string) error {
 	}
 
 	return tx.Commit()
+	
+}
+
+// GetAll récupère tous les fils de discussion de la base de données en gros kyks
+func (r *ThreadRepository) GetAll() ([]models.Thread, error) {
+	query := `SELECT id_fil, titre, description, etat, date_creation, id_user FROM fil_discussion`
+	rows, err := r.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var threads []models.Thread
+	for rows.Next() {
+		var t models.Thread
+		if err := rows.Scan(&t.ID, &t.Titre, &t.Description, &t.Etat, &t.CreatedAt, &t.UserID); err != nil {
+			return nil, err
+		}
+		threads = append(threads, t)
+	}
+	return threads, nil
 }
