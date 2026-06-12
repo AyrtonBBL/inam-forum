@@ -47,12 +47,17 @@ func InitApp() *App {
 	messageService := services.InitMessageService(messageRepo)
 	messageController := controllers.InitMessageController(messageService)
 
+	reactionRepo := repositories.InitReactionRepository(db)
+	reactionService := services.InitReactionService(reactionRepo)
+	reactionController := controllers.InitReactionController(reactionService)
+
 	apiRouter := router.PathPrefix("/api").Subrouter()
 
 	routers.RegisterAuthRoutes(apiRouter, authController)
 	routers.RegisterCategoryRoutes(apiRouter, categoryController)
 	routers.RegisterThreadRoutes(apiRouter, threadController)
 	routers.RegisterMessageRoutes(apiRouter, messageController)
+	routers.RegisterReactionRoutes(apiRouter, reactionController)
 
 	return &App{
 		Db:     db,
