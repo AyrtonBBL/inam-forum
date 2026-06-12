@@ -33,7 +33,7 @@ func (c *MessageController) CreateHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	if req.Contenu == "" || req.IDFil == "" {
+	if req.Contenu == "" || req.ThreadID == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]string{"error": "Le contenu et l'ID du fil sont obligatoires"})
 		return

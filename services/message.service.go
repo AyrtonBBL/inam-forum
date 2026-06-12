@@ -21,9 +21,9 @@ func (s *MessageService) CreateMessage(req models.MessageRequest, userID string)
 		ID:        uuid.New().String(),
 		Contenu:   req.Contenu,
 		DateEnvoi: time.Now(),
-		IDFil:     req.IDFil,
+		ThreadID:  req.ThreadID, 
 		UserID:    userID,
-		Score:     0, // Un nouveau message commence à 0 (Likes/Dislikes FT-6)
+		Score:     0,
 	}
 
 	err := s.repo.Create(newMessage)
