@@ -43,11 +43,16 @@ func InitApp() *App {
 	threadService := services.InitThreadService(threadRepo)
 	threadController := controllers.InitThreadController(threadService)
 
+	messageRepo := repositories.InitMessageRepository(db)
+	messageService := services.InitMessageService(messageRepo)
+	messageController := controllers.InitMessageController(messageService)
+
 	apiRouter := router.PathPrefix("/api").Subrouter()
 
 	routers.RegisterAuthRoutes(apiRouter, authController)
 	routers.RegisterCategoryRoutes(apiRouter, categoryController)
 	routers.RegisterThreadRoutes(apiRouter, threadController)
+	routers.RegisterMessageRoutes(apiRouter, messageController)
 
 	return &App{
 		Db:     db,
