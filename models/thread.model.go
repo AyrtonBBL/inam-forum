@@ -2,13 +2,19 @@ package models
 
 import "time"
 
-// Thread pr un fil de discussion (Annonce de Mate ou Partage d'exploit)
+// Thread représente un fil de discussion 
 type Thread struct {
-	ID            string    `json:"id"`
-	Titre         string    `json:"titre"`
-	Description   string    `json:"description"`
-	Etat          string    `json:"etat"`           // "ouvert", "fermé", "archivé"
-	DateCreation  time.Time `json:"date_creation"`
-	UserID        string    `json:"user_id"`        // Clé étrangère vers l'auteur
-	CategoryID    string    `json:"category_id"`    // Clé étrangère vers le jeu concerné
+	ID           string    `json:"id"`
+	Titre        string    `json:"titre"`
+	Description  string    `json:"description"`
+	Etat         string    `json:"etat"` // "ouvert", "fermé", "archivé"
+	CreatedAt    time.Time `json:"created_at"`
+	UserID       string    `json:"user_id"` 
+}
+
+// ThreadRequest est la structure reçue en JSON lors de la création d'une annonce
+type ThreadRequest struct {
+	Titre       string `json:"titre"`
+	Description string `json:"description"`
+	IDJeu       string `json:"id_jeu"` 
 }

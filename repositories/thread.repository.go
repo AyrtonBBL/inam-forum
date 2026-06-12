@@ -23,7 +23,7 @@ func (r *ThreadRepository) Create(thread *models.Thread, gameID string) error {
 
 	// et l'insertion de l'annonce principale la
 	queryThread := `INSERT INTO fil_discussion (id_fil, titre, description, etat, id_user) VALUES (?, ?, ?, ?, ?)`
-	_, err = tx.Exec(queryThread, thread.ID, thread.Titre, thread.Description, thread.Etat, thread.IDUser)
+	_, err = tx.Exec(queryThread, thread.ID, thread.Titre, thread.Description, thread.Etat, thread.UserID)
 	if err != nil {
 		tx.Rollback()
 		return err

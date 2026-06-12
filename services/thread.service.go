@@ -23,7 +23,7 @@ func (s *ThreadService) CreateThread(req models.ThreadRequest, userID string) (*
 		Description: req.Description,
 		Etat:        "ouvert",
 		CreatedAt:   time.Now(),
-		IDUser:      userID,
+		UserID:      userID,
 	}
 
 	err := s.repo.Create(newThread, req.IDJeu)
