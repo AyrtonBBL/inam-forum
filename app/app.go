@@ -43,6 +43,7 @@ func InitApp() *App {
 
 	routers.RegisterAuthRoutes(apiRouter, authController)
 	routers.RegisterCategoryRoutes(apiRouter, categoryController)
+	routers.RegisterThreadRoutes(apiRouter, threadController)
 
 	return &App{
 		Db:     db,
