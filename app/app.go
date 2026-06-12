@@ -39,6 +39,10 @@ func InitApp() *App {
 	categoryService := services.InitCategoryService(categoryRepo)
 	categoryController := controllers.InitCategoryController(categoryService)
 
+	threadRepo := repositories.InitThreadRepository(db)
+	threadService := services.InitThreadService(threadRepo)
+	threadController := controllers.InitThreadController(threadService)
+
 	apiRouter := router.PathPrefix("/api").Subrouter()
 
 	routers.RegisterAuthRoutes(apiRouter, authController)
