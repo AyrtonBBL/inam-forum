@@ -26,7 +26,7 @@ func InitApp() *App {
 
 	router := mux.NewRouter()
 
-	// Page d'accueil de bienvenue 
+	// Page d'accueil de bienvenue
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "<h1>Bienvenue sur I Need a Mate </h1><p>Prêt à trouver ton futur mate ?</p>")
 	}).Methods("GET")
@@ -35,9 +35,14 @@ func InitApp() *App {
 	authService := services.InitAuthService(userRepo)
 	authController := controllers.InitAuthController(authService)
 
+	categoryRepo := repositories.InitCategoryRepository(db)
+	categoryService := services.InitCategoryService(categoryRepo)
+	categoryController := controllers.InitCategoryController(categoryService)
+
 	apiRouter := router.PathPrefix("/api").Subrouter()
 
 	routers.RegisterAuthRoutes(apiRouter, authController)
+	routers.RegisterCategoryRoutes(apiRouter, categoryController)
 
 	return &App{
 		Db:     db,
