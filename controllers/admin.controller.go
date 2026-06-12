@@ -21,7 +21,7 @@ func (c *AdminController) BanHandler(w http.ResponseWriter, r *http.Request) {
 	// Récupération de l'ID de l'admin avc le middleware
 	adminID, ok := r.Context().Value("user_id").(string)
 	if !ok || adminID == "" {
-		w.WriteHeader(http.StatusString)
+		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(map[string]string{"error": "Action non autorisée"})
 		return
 	}
