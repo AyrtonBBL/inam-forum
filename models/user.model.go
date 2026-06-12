@@ -12,3 +12,9 @@ type User struct {
 	EstBanni       bool      `json:"est_banni"`       // Géré par l'admin
 	CreatedAt      time.Time `json:"created_at"`
 }
+
+// ça ça représente le JSON reçu pour bannir un utilisateur
+type BanRequest struct {
+	UserID   string `json:"user_id"`
+	EstBanni bool   `json:"est_banni"` // true pour bannir, false pour débannir
+}

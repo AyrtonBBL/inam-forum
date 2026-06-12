@@ -51,6 +51,9 @@ func InitApp() *App {
 	reactionService := services.InitReactionService(reactionRepo)
 	reactionController := controllers.InitReactionController(reactionService)
 
+	adminService := services.InitAdminService(userRepo)
+	adminController := controllers.InitAdminController(adminService)
+
 	apiRouter := router.PathPrefix("/api").Subrouter()
 
 	routers.RegisterAuthRoutes(apiRouter, authController)
@@ -58,6 +61,7 @@ func InitApp() *App {
 	routers.RegisterThreadRoutes(apiRouter, threadController)
 	routers.RegisterMessageRoutes(apiRouter, messageController)
 	routers.RegisterReactionRoutes(apiRouter, reactionController)
+	routers.RegisterAdminRoutes(apiRouter, adminController)
 
 	return &App{
 		Db:     db,
