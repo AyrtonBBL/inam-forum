@@ -33,3 +33,7 @@ func (s *ThreadService) CreateThread(req models.ThreadRequest, userID string) (*
 
 	return newThread, nil
 }
+
+func (s *ThreadService) GetAllThreads() ([]models.Thread, error) {
+	return s.repo.GetAll()
+}
