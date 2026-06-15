@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INAM - Connexion & Inscription</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <a href="index.html" class="back-link">⬅Retour à l'accueil</a>
+        
+        <div class="auth-box" id="login-box">
+            <h2>Gamer Login</h2>
+            <form id="form-login">
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="login-email" required placeholder="ton-email@gaming.com">
+                </div>
+                <div class="input-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-submit">Se connecter</button>
+            </form>
+            <p class="toggle-auth">Pas encore de compte ? <span onclick="toggleAuth()">Inscris-toi</span></p>
+        </div>
+
+        <div class="auth-box hidden" id="register-box">
+            <h2>Rejoindre INAM</h2>
+            <form id="form-register">
+                <div class="input-group">
+                    <label>Pseudo</label>
+                    <input type="text" id="reg-pseudo" required placeholder="TonPseudoGamer">
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="reg-email" required placeholder="ton-email@gaming.com">
+                </div>
+                <div class="input-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="reg-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-submit">Créer mon compte</button>
+            </form>
+            <p class="toggle-auth">Déjà inscrit ? <span onclick="toggleAuth()">Connecte-toi</span></p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+
+        // Petite fonction pour basculer entre connexion et inscription visuellement trouvé sur Reddit
+        function toggleAuth() {
+            document.getElementById('login-box').classList.toggle('hidden');
+            document.getElementById('register-box').classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
