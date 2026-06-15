@@ -63,6 +63,21 @@ func InitApp() *App {
 	routers.RegisterReactionRoutes(apiRouter, reactionController)
 	routers.RegisterAdminRoutes(apiRouter, adminController)
 
+	//  AJOUT SÉCURITÉ CORS POUR LE FRONTEND car sinon ca marche pas
+	router.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+
+			if r.Method == "OPTIONS" {
+				w.WriteHeader(http.StatusOK)
+				return
+			}
+			next.ServeHTTP(w, r)
+		})
+	})
+
 	return &App{
 		Db:     db,
 		Router: router,

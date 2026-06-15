@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Need a Mate - Trouve ton équipié</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">I Need a Mate</div>
+        <nav id="nav-auth">
+            <a href="auth.html" class="btn">Connexion / Inscription</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Trouve ton futur mate ICI</h1>
+            <p>Marre des randoms qui parlent pas ta langue ? Cherche les salons de tes jeux préférés et trouve l'équipe/équipié parfait.e pour toi.</p>
+        </section>
+
+        <section class="forum-container">
+            <aside class="sidebar">
+                <h3>Salons de Jeux</h3>
+                <ul id="categories-list">
+                    <li>Chargement des salons...</li>
+                </ul>
+            </aside>
+
+            <div class="content">
+                <div class="content-header">
+                    <h2>Annonces récentes</h2>
+                    <button id="btn-new-thread" class="btn hidden">Créer une annonce</button>
+                </div>
+                <div id="threads-list">
+                    <p>Chargement des annonces...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
