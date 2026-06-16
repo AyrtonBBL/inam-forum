@@ -1,9 +1,8 @@
-
 :root {
     --bg-main: #1a1c23;
     --bg-box: #242731;
     --bg-sidebar: #1f212a;
-    --accent: #5865F2; 
+    --accent: #5865F2;
     --accent-hover: #4752c4;
     --text-white: #f6f6f7;
     --text-muted: #949ba4;
@@ -19,6 +18,11 @@
 
 body {
     background-color: var(--bg-main);
+    background-image: url('inam.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: var(--text-white);
     min-height: 100vh;
 }
@@ -57,7 +61,7 @@ header {
 .hero {
     text-align: center;
     padding: 3rem 1rem;
-    background: linear-gradient(180deg, var(--bg-sidebar) 0%, var(--bg-main) 100%);
+    background: transparent;
 }
 
 .hero h1 {

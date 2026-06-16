@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api";
+    const API_URL = "http://localhost:8080/api";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -182,9 +182,9 @@ async function loadMessages(threadId) {
                     <small style="color:#949ba4;">Par Joueur #${msg.user_id.substring(0,5)}</small>
                 </div>
                 <div style="display:flex; align-items:center; gap:0.5rem;">
-                    <button onclick="voteMessage('${msg.id}', 'like', '${threadId}')" style="background:none; border:none; cursor:pointer;">👍</button>
+                    <button onclick="voteMessage('${msg.id}', 'like', '${threadId}')" style="background:none; border:none; cursor:pointer;">💘</button>
                     <span style="font-weight:bold; color:${msg.score >= 0 ? '#2ed573' : '#ff4757'}">${msg.score}</span>
-                    <button onclick="voteMessage('${msg.id}', 'dislike', '${threadId}')" style="background:none; border:none; cursor:pointer;">👎</button>
+                    <button onclick="voteMessage('${msg.id}', 'dislike', '${threadId}')" style="background:none; border:none; cursor:pointer;">💔</button>
                 </div>
             `;
             list.appendChild(div);
