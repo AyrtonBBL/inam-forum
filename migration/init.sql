@@ -1,4 +1,3 @@
--- Suppression des tables si elles existent déjà (pour éviter les conflits au redémarrage)
 DROP TABLE IF EXISTS correspondre;
 DROP TABLE IF EXISTS reaction;
 DROP TABLE IF EXISTS message;
@@ -12,7 +11,7 @@ CREATE TABLE utilisateur (
     email TEXT UNIQUE NOT NULL,
     mot_passe_hashe TEXT NOT NULL,
     role TEXT NOT NULL DEFAULT 'user',
-    est_banni INTEGER NOT NULL DEFAULT 0, -- 0 = Faux, 1 = Vrai -> kyky
+    est_banni INTEGER NOT NULL DEFAULT 0, -- 0 = Faux, 1 = Vrai -> kykyyy
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
