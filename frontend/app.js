@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById("categories-list")) loadCategories();
     if (document.getElementById("threads-list")) loadThreads();
 
-    // Formulaire de connexion
     const formLogin = document.getElementById("form-login");
     if (formLogin) {
         formLogin.addEventListener("submit", async (e) => {
@@ -15,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Formulaire d'inscription
     const formRegister = document.getElementById("form-register");
     if (formRegister) {
         formRegister.addEventListener("submit", async (e) => {
@@ -24,12 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Formulaire de création d'annonce
     const formThread = document.getElementById("form-thread");
     if (formThread) {
         formThread.addEventListener("submit", async (e) => {
             e.preventDefault();
-            await createThread(document.getElementById("thread-titre").value, document.getElementById("thread-desc").value, document.getElementById("thread-jeu").value);
+        
+            const idJeu = document.getElementById("thread-jeu").value;
+            await createThread(document.getElementById("thread-titre").value, document.getElementById("thread-desc").value, idJeu);
         });
     }
 });
@@ -42,7 +41,7 @@ async function handleLogin(email, password) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user_pseudo", data.user.nom_utilisateur);
         window.location.href = "index.html";
-    } catch (err) { alert(`❌ ${err.message}`); }
+    } catch (err) { alert(`err ${err.message}`); }
 }
 
 async function handleRegister(pseudo, email, password) {
@@ -51,14 +50,14 @@ async function handleRegister(pseudo, email, password) {
         if (!res.ok) throw new Error("Erreur d'inscription. Pseudo ou email déjà pris.");
         alert("Compte créé avec succès ! Connecte-toi.");
         window.location.reload();
-    } catch (err) { alert(`❌ ${err.message}`); }
+    } catch (err) { alert(`err ${err.message}`); }
 }
 
 function checkAuthStatus() {
     const token = localStorage.getItem("token");
     if (token && document.getElementById("nav-auth")) {
         document.getElementById("nav-auth").innerHTML = `
-            <span style="color:white; margin-right:1rem; font-weight:bold;">👤 ${localStorage.getItem("user_pseudo")}</span>
+            <span style="color:white; margin-right:1rem; font-weight:bold;"> ${localStorage.getItem("user_pseudo")}</span>
             <button onclick="localStorage.clear(); window.location.reload();" class="btn" style="background:#ff4757;">Déconnexion</button>
         `;
         if (document.getElementById("btn-new-thread")) document.getElementById("btn-new-thread").classList.remove("hidden");
@@ -72,11 +71,12 @@ async function loadCategories() {
         const listContainer = document.getElementById("categories-list");
         const selectMenu = document.getElementById("thread-jeu");
         
-        listContainer.innerHTML = `<li style="cursor:pointer; color:var(--accent);" onclick="loadThreads()">🌍 Voir toutes les annonces</li>`;
+        // Bouton pour réinitialiser le filtre
+        listContainer.innerHTML = `<li style="cursor:pointer; color:var(--accent);" onclick="loadThreads()">Voir toutes les annonces</li>`;
         if (selectMenu) selectMenu.innerHTML = '<option value="">Choisis un jeu...</option>';
 
         cats.forEach(c => {
-           
+          
             const li = document.createElement("li");
             li.style.cursor = "pointer";
             li.innerHTML = `<strong>${c.nom_jeu}</strong><br><small style="color:#949ba4">${c.genre}</small>`;
@@ -107,7 +107,7 @@ async function loadThreads(categoryId = null) {
                 <h3>${t.titre}</h3>
                 <p>${t.description}</p>
                 <div style="margin-top:1rem; display:flex; justify-content:space-between; align-items:center;">
-                    <span style="font-size:0.85rem; color:#949ba4;">Statut : 🟢 ${t.etat}</span>
+                    <span style="font-size:0.85rem; color:#949ba4;">Statut :  Ouvert</span>
                     <button class="btn" style="padding: 0.4rem 0.8rem;" onclick="loadMessages('${t.id}')">Voir les réponses</button>
                 </div>
                 <div id="msg-box-${t.id}" class="hidden" style="margin-top:1rem; border-top:1px solid var(--border); padding-top:1rem;">
@@ -157,7 +157,7 @@ async function loadMessages(id) {
                 </div>
                 <div style="display:flex; align-items:center; gap:0.5rem;">
                     <button onclick="voteMessage('${m.id}', 'like', '${id}')" style="background:none; border:none; cursor:pointer;">👍</button>
-                    <span style="font-weight:bold; color:${m.score >= 0 ? '#2ed573' : '#ff4757'}">${m.score}</span>
+                    <span style="font-weight:bold; color:${m.score >= 0 ? '#2ed573' : '#ff4757'}">${m.score || 0}</span>
                     <button onclick="voteMessage('${m.id}', 'dislike', '${id}')" style="background:none; border:none; cursor:pointer;">👎</button>
                 </div>
             </div>
