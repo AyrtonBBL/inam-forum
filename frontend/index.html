@@ -38,6 +38,27 @@
                 </div>
             </div>
         </section>
+        <div id="modal-new-thread" class="auth-box hidden" style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:100;">
+            <h2>Nouvelle Recherche de Mate</h2>
+            <form id="form-thread">
+                <div class="input-group">
+                    <label>Jeu (ID de la catégorie)</label>
+                    <input type="number" id="thread-jeu" required placeholder="Ex: 1 (Apex), 2 (LoL)..." min="1" max="4">
+                </div>
+                <div class="input-group">
+                    <label>Titre de l'annonce</label>
+                    <input type="text" id="thread-titre" required placeholder="Cherche Mate classé Or...">
+                </div>
+                <div class="input-group">
+                    <label>Description</label>
+                    <textarea id="thread-desc" required placeholder="Mes dispos, mon main..." style="width:100%; padding:0.75rem; background:var(--bg-main); border:1px solid var(--border); color:white; border-radius:6px;"></textarea>
+                </div>
+                <div style="display:flex; gap:1rem;">
+                    <button type="submit" class="btn-submit">Publier</button>
+                    <button type="button" class="btn-submit" style="background:var(--border);" onclick="document.getElementById('modal-new-thread').classList.add('hidden')">Annuler</button>
+                </div>
+            </form>
+        </div>
     </main>
 
     <script src="app.js"></script>

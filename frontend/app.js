@@ -248,3 +248,41 @@ async function voteMessage(messageId, typeVote, threadId) {
         alert("Impossible d'enregistrer le vote");
     }
 }
+
+// Gérer l'affichage du formulaire et l'envoi de l'annonce
+document.addEventListener("DOMContentLoaded", () => {
+    const btnNew = document.getElementById("btn-new-thread");
+    const modal = document.getElementById("modal-new-thread");
+    const formThread = document.getElementById("form-thread");
+
+    if (btnNew && modal) {
+        btnNew.addEventListener("click", () => modal.classList.remove("hidden"));
+    }
+
+    if (formThread) {
+        formThread.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const idJeu = document.getElementById("thread-jeu").value;
+            const titre = document.getElementById("thread-titre").value;
+            const desc = document.getElementById("thread-desc").value;
+
+            try {
+                const response = await fetch(`${API_URL}/threads`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    },
+                    body: JSON.stringify({ titre: titre, description: desc, id_jeu: idJeu })
+                });
+
+                if (!response.ok) throw new Error("Erreur de publication");
+                
+                alert("Annonce publiée !");
+                window.location.reload();
+            } catch (error) {
+                alert("Impossible de publier. Es-tu bien connecté ?");
+            }
+        });
+    }
+});
