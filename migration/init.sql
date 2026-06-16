@@ -1,4 +1,3 @@
--- Suppression des tables si elles existent déjà (pour éviter les conflits au redémarrage)
 DROP TABLE IF EXISTS correspondre;
 DROP TABLE IF EXISTS reaction;
 DROP TABLE IF EXISTS message;
