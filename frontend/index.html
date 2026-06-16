@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I Need a Mate - Trouve ton équipié</title>
+    <title>I Need a Mate - Trouve ton équipe</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,34 +16,37 @@
 
     <main>
         <section class="hero">
-            <h1>Trouve ton futur mate ICI</h1>
-            <p>Marre des randoms qui parlent pas ta langue ? Cherche les salons de tes jeux préférés et trouve l'équipe/équipié parfait.e pour toi.</p>
+            <h1>Trouve ton futur mate en quelques clics</h1>
+            <p>Marre de tagger en solo ? Rejoins les salons de tes jeux préférés et trouve l'équipe parfaite.</p>
         </section>
 
         <section class="forum-container">
             <aside class="sidebar">
-                <h3>Salons de Jeux</h3>
+                <h3>🎮 Salons de Jeux</h3>
                 <ul id="categories-list">
                     <li>Chargement des salons...</li>
                 </ul>
             </aside>
 
             <div class="content">
-                <div class="content-header">
+                <div class="content-header" style="display:flex; justify-content:space-between; margin-bottom:1rem;">
                     <h2>Annonces récentes</h2>
-                    <button id="btn-new-thread" class="btn hidden">Créer une annonce</button>
+                    <button id="btn-new-thread" class="btn hidden" onclick="document.getElementById('modal-new-thread').classList.remove('hidden')">Créer une annonce</button>
                 </div>
                 <div id="threads-list">
                     <p>Chargement des annonces...</p>
                 </div>
             </div>
         </section>
-        <div id="modal-new-thread" class="auth-box hidden" style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:100;">
-            <h2>Nouvelle Recherche de Mate</h2>
+
+        <div id="modal-new-thread" class="auth-box hidden" style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:100; box-shadow: 0 0 20px rgba(0,0,0,0.8);">
+            <h2 style="margin-bottom:1rem;">Nouvelle Recherche de Mate</h2>
             <form id="form-thread">
                 <div class="input-group">
-                    <label>Jeu (ID de la catégorie)</label>
-                    <input type="number" id="thread-jeu" required placeholder="Ex: 1 (Apex), 2 (LoL)..." min="1" max="4">
+                    <label>Jeu concerné</label>
+                    <select id="thread-jeu" required style="width: 100%; padding: 0.75rem; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: white; outline: none;">
+                        <option value="">Choisis un jeu...</option>
+                        </select>
                 </div>
                 <div class="input-group">
                     <label>Titre de l'annonce</label>
@@ -51,7 +54,7 @@
                 </div>
                 <div class="input-group">
                     <label>Description</label>
-                    <textarea id="thread-desc" required placeholder="Mes dispos, mon main..." style="width:100%; padding:0.75rem; background:var(--bg-main); border:1px solid var(--border); color:white; border-radius:6px;"></textarea>
+                    <textarea id="thread-desc" rows="3" required placeholder="Mes dispos, mon main..." style="width:100%; padding:0.75rem; background:var(--bg-main); border:1px solid var(--border); color:white; border-radius:6px; outline:none;"></textarea>
                 </div>
                 <div style="display:flex; gap:1rem;">
                     <button type="submit" class="btn-submit">Publier</button>
@@ -60,7 +63,6 @@
             </form>
         </div>
     </main>
-
     <script src="app.js"></script>
 </body>
 </html>
