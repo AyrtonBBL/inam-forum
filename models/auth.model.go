@@ -1,20 +1,20 @@
 package models
 
-// Ayrton, ça c'est le RegisterRequest dedans ya les les données envoyées pendant de l'inscription
+// RegisterRequest est le JSON envoyé par le formulaire d'inscription
 type RegisterRequest struct {
 	NomUtilisateur string `json:"nom_utilisateur"`
 	Email          string `json:"email"`
-	MotDePasse     string `json:"mot_de_passe"`
+	MotDePasse     string `json:"mot_passe"` 
 }
 
-// Ca c'est les identifiants pour la connexion
+// LoginRequest est le JSON envoyé par le formulaire de connexion
 type LoginRequest struct {
-	Identifiant string `json:"identifiant"` // nom d'utilisateur ou e-mail
-	MotDePasse  string `json:"mot_de_passe"`
+	Identifiant string `json:"identifiant"`
+	MotDePasse  string `json:"mot_passe"`
 }
 
-// la réponse après une connection réussi
+// AuthResponse est ce que le serveur renvoie quand on se connecte
 type AuthResponse struct {
-	Token string `json:"token"` // Le token JWT généré
-	User  User   `json:"user"`  // Les infos de l'utilisateur connecté (sans le mot de passe)
+	Token string `json:"token"`
+	User  User   `json:"user"`
 }
